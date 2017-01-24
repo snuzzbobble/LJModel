@@ -12,18 +12,18 @@ import numpy as np
 class Particle3D(object) :
 
     # Initialise a Particle3D instance
-    def __init__(self, label, x_pos, y_pos, z_pos, x_vel, y_vel, z_vel, mass):
+    def __init__(self, label, pos, vel, mass):
 	"""
 	Initialise a Particle3D instance
 	
 	:param label: label of the particle as a string
-	:param x_pos, y_pos, z_pos: position coordinates of the particle as floats
-	:param x_vel, y_vel, z_vel: velocity coordinates of the particle as floats
+	:param pos: position of the particle as a (1,3) Numpy array
+	:param vel: velocity of the particle as a (1,3) Numpy array
 	:param mass: mass of the particle as a float
 	"""
 	self.label = label
-        self.position = np.array([x_pos, y_pos, z_pos])
-        self.velocity = np.array([x_vel, y_vel, z_vel])
+        self.position = pos
+        self.velocity = vel
         self.mass = mass
 
     # Formatted output as string
@@ -102,13 +102,15 @@ class Particle3D(object) :
         x_pos = float(position[0])
         y_pos = float(position[1])
         z_pos = float(position[2])
+	pos = np.array([x_pos,y_pos,z_pos])
 	print str(z_pos)
         line3 = fileIn.readline()
         velocity = list(line3.split())
         x_vel = float(velocity[0])
         y_vel = float(velocity[1])
         z_vel = float(velocity[2])
-        return Particle3D(label, x_pos, y_pos, z_pos, x_vel, y_vel, z_vel, mass)
+	vel = np.array([x_vel,y_vel,z_vel])
+        return Particle3D(label, pos, vel, mass)
 
     # Relative vector separation of two particles
     @staticmethod
