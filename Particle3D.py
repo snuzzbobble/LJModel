@@ -34,7 +34,7 @@ class Particle3D(object) :
 	:param Particle3D: Particle3D instance
 	:return: formatted output as string with label and position coordinates
 	"""
-        return  str(self.label) + str(self.position)
+        return  str(self.label) + " " +  str(self.position[0]) + " " + str(self.position[1]) + " " + str(self.position[2])
  
 
     # Kinetic energy
@@ -96,14 +96,14 @@ class Particle3D(object) :
         labelmass = list(line1.split())
         label = str(labelmass[0])
         mass = float(labelmass[1])
-	print str(mass)
+
         line2 = fileIn.readline()
         position = list(line2.split())
         x_pos = float(position[0])
         y_pos = float(position[1])
         z_pos = float(position[2])
 	pos = np.array([x_pos,y_pos,z_pos])
-	print str(z_pos)
+
         line3 = fileIn.readline()
         velocity = list(line3.split())
         x_vel = float(velocity[0])
