@@ -34,7 +34,7 @@ class Particle3D(object) :
 	:param Particle3D: Particle3D instance
 	:return: formatted output as string with label and position coordinates
 	"""
-        return  str(self.label) + str(self.position)
+        return  str(self.label) + str(self.position[0]) + str(self.position[1]) + str(self.position[2])
  
 
     # Kinetic energy
