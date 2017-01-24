@@ -1,5 +1,10 @@
-Ask about feedback for Ex2:
+Design doc:
   What's a constructor?
-  Why use vectors instead of individual floats?
-  What is toString method?
-Ask how to check if Particle3DVectors.py works
+    label, pos, vel and mass (arguments of init method)
+  What are the properties? self.etcetc
+
+What does the code have to do?
+  1.Simulation
+    -Read sim. params. from file, set up list of particles to hold particles
+    -Interface with routines provided in MDUtilies to intialise positions and velocities
+
