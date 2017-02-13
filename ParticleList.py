@@ -8,6 +8,7 @@ Date: 07/02/2017
 """
 
 import numpy as np
+import math
 from Particle3D import Particle3D as P
 
 class ParticleSyst(object) :
@@ -28,6 +29,7 @@ class ParticleSyst(object) :
 	self.label = label
         self.position = pos
         self.velocity = vel
+	self.N = N
         self.mass = mass
 
     # Formatted output as string
@@ -41,15 +43,32 @@ class ParticleSyst(object) :
 	return  str(name) + " represents a system of " + str(N) + " Particle3D instances"
  
 
+    # Magnitude of velocity 
+    def velmag(self, i):
+	"""
+	Calculates the magnitude of the velocity of the particle of index i
+	
+	:param ParticleSyst: ParticleSyst instance
+	:return: speed of particle as float
+	"""
+	speedsquared = 0.0
+	for k in range(0,3):
+		speedsquared = speedsquared + (self.velocity[i,k])**2
+	speed = math.sqrt(speedsquared)
+	return speed
+	
     # Kinetic energy
     def kineticEnergy(self):
 	"""
-	Return the kinetic energy of the particle
+	Return the kinetic energy of the system
 	
-	:param Particle3D: Particle3D instance
-	:return: kinetic energy as particle as float
+	:param ParticleSyst: ParticleSyst instance
+	:return: kinetic energy of system as float
 	"""
-        return 0.5*self.mass*np.inner(self.velocity,self.velocity)
+	energy = 0.0
+	for i in range(0, self.N):
+	    energy = energy + 0.5*self.mass[i]*velmag(self, i)**2
+        return energy
 
     # Time integration methods
     # First-order velocity update
@@ -57,21 +76,21 @@ class ParticleSyst(object) :
 	"""
 	Update the velocity to the first order
 
-	:param Particle3D: Particle3D instance
+	:param ParticleSyst: ParticleSyst instance
 	:param dt: timestep as float
-	:param force: force as a vector represented by a (1,3) Numpy array
-	:return: updated velocity of particle represented by a (1,3) Numpy array
+	:param force: force between every particle represented by an (N,3) Numpy array
+	:return: updated velocity of particle represented by an (N,3) Numpy array
 	"""
-        self.velocity = self.velocity + dt*force/self.mass
+        self.velocity = self.velocity + dt*np.divide(force, self.mass)
 
     # First-order position update
     def leapPos1st(self, dt):
 	"""
 	Update the position to the first order
 	
-	:param Particle3D: Particle3D instance
+	:param ParticleSyst: ParticleSyst instance
 	:param dt: timestep as float
-	:return: first order update of position of particle represented by a (1,3) Numpy array
+	:return: first order update of position of particle represented by a (N,3) Numpy array
 	"""
         self.position = self.position + dt*self.velocity
 
@@ -80,12 +99,12 @@ class ParticleSyst(object) :
 	"""
 	Update the position to the second order
 	
-	:param Particle3D: Particle3D instance
+	:param ParticleSyst: ParticleSyst instance
 	:param dt: timestep as float
-	:param force: force as a vector represented by a (1,3) Numpy array
-	:return: second order update of position of particle represented by a (1,3) Numpy array
+	:param force: force as a vector represented by an (N,3) Numpy array
+	:return: second order update of position of particle represented by an (N,3) Numpy array
 	"""
-        self.position = self.position + dt*self.velocity + 0.5*dt**2*force/self.mass
+        self.position = self.position + dt*self.velocity + 0.5*dt**2*np.divide(force, self.mass)
 	
     # Prints in format necessary for VMD
     def printVMD(self, m)
@@ -98,7 +117,7 @@ class ParticleSyst(object) :
 	""""
 	total = ""
 	total = total + str(N) + "/n" + "Point = " + str(m) + "/n"
-	for i in range(0,N+1)
+	for i in range(0,N)
 
 		total = total + str(label[i]) + " " + str(self.position[i,0]) + " " + str(self.position[i,1]) + " " + str(self.position[i,2]) + "/n"
 	return total
@@ -106,41 +125,45 @@ class ParticleSyst(object) :
 
     # Create a particle from a file entry
     @staticmethod
-    def createparticle(fileIn):
+    def createsystem(fileIn):
 	"""
-	Create a particle from a file entry which has the label of the particle and its mass in the first line, the position coordinates of the particle in the second line and the velocity coordinates of the particle in the third line
-
+	Create a system of N particles from a file entry.
+	The first line of the file contains the system name and the number of particles, N, as a float.
+	Each subsequent line of the file must have the label, mass, position and velocity coordinates of the relevant particle in that order, separated by spaces.
+	
 	:param fileIn: file opened for reading
-	:return: Particle3D as an instance
+	:return: ParticleSyst as an instance
 	"""
-        line1 = fileIn.readline()
-        labelmass = list(line1.split())
-        label = str(labelmass[0])
-        mass = float(labelmass[1])
+        alllines = fileIn.readlines()
+	line0 = alllines[0].split()
+        name = str(line0[0])
+	N = float(line0[1])
+	
+	# Create Numpy arrays to hold system information
+	label = np.empty(shape={N,1})
+	mass = np.empty(shape={N,1})
+	pos = np.empty(shape={N,3})
+	vel = np.empty(shape={N,3})
+	
+	for i in range(1,N+1):
+		
+		# Define list of elements of line i corresponding to particle of index i
+		line = alllines[i].split()
+		
+		# Add label of particle i to label array
+        	label[0] = str(line[0])
+		
+		# Add mass of particle i to mass array
+        	mass[0] = float(line[1])
+		
+		# Add position of particle i to row i of position array
+		pos[i,0] = float(line[2])
+		pos[i,1] = float(line[3])
+		pos[i,2] = float(line[4])
+		
+		# Add velocity of particle i to 
+		vel[i,0] = float(line[5])
+		vel[i,1] = float(line[6])
+		vel[i,2] = float(line[7])
 
-        line2 = fileIn.readline()
-        position = list(line2.split())
-        x_pos = float(position[0])
-        y_pos = float(position[1])
-        z_pos = float(position[2])
-	pos = np.array([x_pos,y_pos,z_pos])
-
-        line3 = fileIn.readline()
-        velocity = list(line3.split())
-        x_vel = float(velocity[0])
-        y_vel = float(velocity[1])
-        z_vel = float(velocity[2])
-	vel = np.array([x_vel,y_vel,z_vel])
-        return Particle3D(label, pos, vel, mass)
-
-    # Relative vector separation of two particles
-    @staticmethod
-    def vectorseparation(p1, p2):
-	"""
-	Calculate the relative vector separation of two particles 1 and 2
-
-	:param p1: particle 1 represented as a Particle3D instance
-	:param p2: particle 2 represented as a Particle3D instance
-	:return: vector separation of particles represented by a (1,3) Numpy array
-	"""
-        return p1.position - p2.position
+        return ParticleSyst(label, pos, vel, mass, N)
