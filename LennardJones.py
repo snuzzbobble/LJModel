@@ -1,23 +1,31 @@
 """ 
 Lennard Jones: 
-returns the force and potential energy between two particles interacting through the Lennard-Jones pair potential 
+returns the force and potential energy acting on the ith particle through the Lennard-Jones pair potential 
 
 Marina Ruiz Sanchez-Oro
 
-07/02/2017
+Cara Lynch
+
+21/02/2017
 """
 import sys
 import math
 import matplotlib.pyplot as pyplot
 import numpy as np
-from Particle3D import Particle3D as p3d
+from ParticleList import ParticleSyst as P
 import MIC as mic
 
 
 # Calculates the force between two particles based on the separation, the cutoff radius and the box dimensions 
 
-def ljforce (p1,p2,L,r_c) :
-    # Computes the vector separation of the particles
+def ljforce(system,L,r) :
+    force = np.empty(shape={P.N,3})
+    for i in range(0, P.N + 1):
+	for j in range(0, 3):
+	    force[i,j] = 
+	
+
+	# Computes the vector separation of the particles
     rvector = mic.vecsep(p1,p2)
     # Computes the magnitue of the particle separation 
     rscalar = math.sqrt(np.inner(rvector,rvector))
