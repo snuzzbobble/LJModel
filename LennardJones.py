@@ -78,7 +78,7 @@ def ljpotential(system,L,r_c) :
 	"""
     potential = np.empty(shape={P.N,1})
 	
-	# Compute for i th particle
+	# Compute for i th particle--- P.N+1? ---
     for i in range(0, P.N):
 		
 		# With relation to j th particle
