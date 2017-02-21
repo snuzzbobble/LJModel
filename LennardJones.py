@@ -29,7 +29,7 @@ def ljforce(system,L,r_c) :
 	# Compute for i th particle
     for i in range(0, P.N + 1):
 		
-		# With relation to j th particle
+		# With relation to j th particle ---would this count the particles twice?---
 	for j in range(0, P.N+1):
 		
 		if j == i:
