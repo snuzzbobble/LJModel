@@ -79,10 +79,10 @@ def ljpotential(system,L,r_c) :
     potential = np.empty(shape={P.N,1})
 	
 	# Compute for i th particle
-    for i in range(0, P.N + 1):
+    for i in range(0, P.N):
 		
 		# With relation to j th particle
-	for j in range(0, P.N+1):
+	for j in range(0, P.N):
 		
 		if j == i:
 			# not computing the effect the particle has on itself
@@ -117,6 +117,24 @@ def ljpotential(system,L,r_c) :
 				      
 	return potential
 
+def totPE(system, L, r_c)
+	"""
+	Computes the total potential energy of the system according to the Lennard-Jones potential.
+	
+	:param system: ParticleSyst object representing the system of N particles
+	:param L: Box dimensions
+	:param r_c: cutoff radius
+	:return totalPE: a float representing the potential of the system
+	"""
+	# Compute the potential of each individual particle
+	potential = ljpotential(system,L,r_c)
+	
+	# Set initial potential as a float
+	totalPE = 0.0
+	# Add all potentials
+	for i in range(0,P.N):
+		totalPE = totalPE + potential[i]
+	return totalPE
 	
 
  
