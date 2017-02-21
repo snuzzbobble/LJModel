@@ -9,7 +9,6 @@ Date: 07/02/2017
 
 import numpy as np
 import math
-from Particle3D import Particle3D as P
 
 class ParticleSyst(object) :
 
