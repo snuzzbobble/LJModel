@@ -27,10 +27,10 @@ def ljforce(system,L,r_c) :
     force = np.empty(shape={P.N,3})
 	
 	# Compute for i th particle
-    for i in range(0, P.N + 1):
+    for i in range(0, P.N):
 		
 		# With relation to j th particle ---would this count the particles twice?---
-	for j in range(0, P.N+1):
+	for j in range(0, P.N):
 		
 		if j == i:
 			# not computing the effect the particle has on itself
@@ -133,8 +133,9 @@ def totPE(system, L, r_c)
 	totalPE = 0.0
 	# Add all potentials
 	for i in range(0,P.N):
-		totalPE = totalPE + potential[i]
-	return totalPE
+		doubletotalPE = totalPE + potential[i]
+	# Every interaction is counted twice so must divide potential calculated by 2
+	return doubletotalPE/2
 	
 
  
