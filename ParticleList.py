@@ -106,7 +106,7 @@ class ParticleSyst(object) :
         self.position = self.position + dt*self.velocity + 0.5*dt**2*np.divide(force, self.mass)
 	
     # Prints in format necessary for VMD
-    def printVMD(self, m)
+    def printVMD(self, m):
 	"""
 	Prints strings in the right format for a VMD trajectory file
 
