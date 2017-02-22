@@ -4,11 +4,19 @@ CMod Project B: auxiliary MD methods
 
 import random
 import numpy as np
+from ParticleList import ParticleSyst as P
 
-def setInitialPositions(rho, particles):
+def setInitialPositions(rho, syst):
     
+    """
+    Sets the initial positions of the particles in a system.
+    
+    :param rho: density of the system as a float
+    :param syst: N body system represented as a ParticleSyst object
+    :return: size of the box as a (1,3) Numpy array
+    """
     # Determine number of particles
-    nAtoms = len(particles)
+    nAtoms = P.N
     
     # Set box dimensions
     boxSize = (nAtoms/rho)**(1./3.)
@@ -30,19 +38,23 @@ def setInitialPositions(rho, particles):
             for iz in range(nDim):
                 if iAtom<nAtoms:
                     pos = np.array([ix*delta, iy*delta, iz*delta])
-                    particles[iAtom].position = pos
+                    for j in range(0,3):
+                        syst.position[iAtom,j] = pos[j]
                     iAtom += 1
                 if iAtom<nAtoms:
                     pos = np.array([(ix+0.5)*delta, (iy+0.5)*delta, iz*delta])
-                    particles[iAtom].position = pos
+                    for j in range(0,3):
+                        syst.position[iAtom,j] = pos[j]
                     iAtom += 1
                 if iAtom<nAtoms:
                     pos = np.array([(ix+0.5)*delta, iy*delta, (iz+0.5)*delta])
-                    particles[iAtom].position = pos
+                    for j in range(0,3):
+                        syst.position[iAtom,j] = pos[j]
                     iAtom += 1
                 if iAtom<nAtoms:
                     pos = np.array([ix*delta, (iy+0.5)*delta, (iz+0.5)*delta])
-                    particles[iAtom].position = pos
+                    for j in range(0,3):
+                        syst.position[iAtom,j] = pos[j]
                     iAtom += 1
     
     # Some output
@@ -52,10 +64,15 @@ def setInitialPositions(rho, particles):
     # Return the box size as Vector3D object
     return np.array([boxSize, boxSize, boxSize])
     
-def setInitialVelocities(temp, particles):
+def setInitialVelocities(temp, syst):
+    """
+    Sets the intial velocities of the particles in a system.
     
+    :param temp: temperature of system
+    :param syst: system of N particles represented as a ParticleSyst instance
+    """
     # Determine number of particles
-    nAtoms = len(particles)
+    nAto
 
     # Zero the accumulators
     xv0 = 0.0
@@ -67,10 +84,13 @@ def setInitialVelocities(temp, particles):
     for i in range(nAtoms):
         # Random inital velocities
         xvt = random.random() - 0.5
-        yvt = random.random() - 0.5
-        zvt = random.random() - 0.5
+        syst.velocity[i,0] = xvt
         
-        particles[i].velocity = np.array([xvt, yvt, zvt])
+        yvt = random.random() - 0.5
+        syst.velocity[i,1] = yvt
+        
+        zvt = random.random() - 0.5
+        syst.velocity[i,2] = zvt
         
         # Add to total velocity
         xv0 += xvt
@@ -94,12 +114,17 @@ def setInitialVelocities(temp, particles):
     
     # Rescale all velocities
     for i in range(nAtoms):
-        vtemp = particles[i].velocity
-        xvt = kB*(vtemp[0] - xv0)
-        yvt = kB*(vtemp[1] - yv0)
-        zvt = kB*(vtemp[2] - zv0)
+        vtempx = syst.velocity[i,0]
+        xvt = kB*(vtempx - xv0)
+        syst.velocity[i,0] = xvt
         
-        particles[i].velocity = np.array([xvt, yvt, zvt])
+        vtempy = syst.velocity[i,1]
+        yvt = kB*(vtempy - yv0)
+         syst.velocity[i,1] = yvt
+        
+        vtempz = syst.velocity[i,2]
+        zvt = kB*(vtempz - zv0)
+         syst.velocity[i,2] = zvt
         
         xv0Tot += xvt
         yv0Tot += yvt
