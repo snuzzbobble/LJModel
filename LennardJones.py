@@ -47,11 +47,11 @@ def ljforce(system,boxdim,r_c) :
 			
 					# If the separation is negative, then the image will be -L/2 in the direction considered
 					if vecsep[k] < 0:
-						vecsep[k] = vecsep[k] - L/2
+						vecsep[k] = vecsep[k] - abs(boxdim[k])/2
 				
 					# If the separation is positive, then the image will be +L/2 in the direction considered
 					else:
-						vecsep[k] = vecsep[k] + L/2
+						vecsep[k] = vecsep[k] + abs(boxdim[k])/2
 				
 			# Magnitude of vector separation
 			r = math.sqrt(np.inner(vecsep, vecsep)
@@ -99,11 +99,11 @@ def ljpotential(system,boxdim,r_c) :
 			
 					# If the separation is negative, then the image will be -L/2 in the direction considered
 					if vecsep[k] < 0:
-						vecsep[k] = vecsep[k] - L/2
+						vecsep[k] = vecsep[k] - abs(boxdim[k])/2
 				
 					# If the separation is positive, then the image will be +L/2 in the direction considered
 					else:
-						vecsep[k] = vecsep[k] + L/2
+						vecsep[k] = vecsep[k] + abs(boxdim[k])/2
 				
 			# Magnitude of vector separation
 			r = math.sqrt(np.inner(vecsep, vecsep)
