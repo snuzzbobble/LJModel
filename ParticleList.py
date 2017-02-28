@@ -130,10 +130,11 @@ class ParticleSyst(object) :
         :param fileIn: file opened for reading
         :return: ParticleSyst as an instance
         """
-        alllines = fileIn.readlines()
-        line0 = alllines[0].split()
+        file = open(fileIn, "r")
+        lines = file.readlines()
+        line0 = lines[0].split()
         name = str(line0[0])
-        N = float(line0[1])
+        N = int(line0[1])
 	
         # Create Numpy arrays to hold system information
         label = np.empty([N,1], dtype = str)
@@ -144,7 +145,7 @@ class ParticleSyst(object) :
         for i in range(1,N+1):
 		
 		# Define list of elements of line i corresponding to particle of index i
-              line = alllines[i].split()
+              line = lines[i].split()
 		
 		# Add label of particle i to label array
               label[0] = str(line[0])

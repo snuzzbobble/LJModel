@@ -16,7 +16,7 @@ def setInitialPositions(rho, syst):
     :return: size of the box as a (1,3) Numpy array
     """
     # Determine number of particles
-    nAtoms = P.N
+    nAtoms = P.N(syst)
     
     # Set box dimensions
     boxSize = (nAtoms/rho)**(1./3.)
@@ -26,7 +26,7 @@ def setInitialPositions(rho, syst):
     
     # Give warning if fcc lattice will not be fully occupied
     if 4*nDim**3 != nAtoms:
-        print "Atoms will not fill a fcc lattice completely.\n"
+        print("Atoms will not fill a fcc lattice completely.\n")
     
     # Separation between particles
     delta = boxSize / nDim
@@ -58,11 +58,11 @@ def setInitialPositions(rho, syst):
                     iAtom += 1
     
     # Some output
-    print "{0:d} atoms placed on a face-centered cubic lattice.\n".format(nAtoms)
-    print "Box dimensions: {0:f} {0:f} {0:f}\n".format(boxSize)
+    print("{0:d} atoms placed on a face-centered cubic lattice.\n".format(nAtoms))
+    print("Box dimensions: {0:f} {0:f} {0:f}\n".format(boxSize))
     
     # Return the box size as Vector3D object
-    return np.array([boxSize, boxSize, boxSize])
+    return(np.array([boxSize, boxSize, boxSize]))
     
 def setInitialVelocities(temp, syst):
     """
@@ -72,7 +72,7 @@ def setInitialVelocities(temp, syst):
     :param syst: system of N particles represented as a ParticleSyst instance
     """
     # Determine number of particles
-    nAto
+    nAtoms = P.N(syst)
 
     # Zero the accumulators
     xv0 = 0.0
@@ -120,11 +120,11 @@ def setInitialVelocities(temp, syst):
         
         vtempy = syst.velocity[i,1]
         yvt = kB*(vtempy - yv0)
-         syst.velocity[i,1] = yvt
+        syst.velocity[i,1] = yvt
         
         vtempz = syst.velocity[i,2]
         zvt = kB*(vtempz - zv0)
-         syst.velocity[i,2] = zvt
+        syst.velocity[i,2] = zvt
         
         xv0Tot += xvt
         yv0Tot += yvt
@@ -132,6 +132,6 @@ def setInitialVelocities(temp, syst):
         v0sq += xvt**2 + yvt**2 + zvt**2
     
     # Output
-    print "Temperature = {0:f}\n".format(temp)
-    print "Centre-of-mass velocity = {0:f} {1:f} {2:f}\n".format(xv0Tot/nAtoms, yv0Tot/nAtoms, zv0Tot/nAtoms)
+    print("Temperature = {0:f}\n".format(temp))
+    print("Centre-of-mass velocity = {0:f} {1:f} {2:f}\n".format(xv0Tot/nAtoms, yv0Tot/nAtoms, zv0Tot/nAtoms))
     
