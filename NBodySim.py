@@ -9,13 +9,11 @@ Created on Tue Feb 28 13:18:18 2017
 
 import sys
 from ParticleList import ParticleSyst as P
-import PBC
 import VelVerlet as vv
 import MDUtilities as md
-import LennardJones as lj
 import histogram as hist
 
-# Read name of input file and value of density from command line
+# Read name of input file and value of density and temperature from command line
 if len(sys.argv)!=4:
     print("Wrong number of arguments")
     print("Usage: " + sys.argv[0] + "<input file> <density as float> < temperature >")
@@ -48,7 +46,7 @@ RDFfile = open("rdf.out", "w")
 # Start time integration loop
 for i in range(1, numstep):
     # Perform VV time integration
-    vv.VelVerlet(dt, System, boxdim, r_c, time, k)
+    vv.VelVerlet(dt, System, boxdim, r_c, time)
     
     # Output trajectory information for VMD file
     trajectory = P.printVMD(System, k)

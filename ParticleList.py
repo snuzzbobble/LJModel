@@ -142,10 +142,10 @@ class ParticleSyst(object) :
         pos = np.empty([N,3], dtype = float)
         vel = np.empty([N,3], dtype = float)
 	
-        for i in range(1,N+1):
+        for i in range(0,N):
 		
 		# Define list of elements of line i corresponding to particle of index i
-              line = lines[i].split()
+              line = lines[i+1].split()
 		
 		# Add label of particle i to label array
               label[0] = str(line[0])

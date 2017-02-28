@@ -21,7 +21,7 @@ def PBCpos(syst, boxdim):
     :return: position of the particle according to the PBC update
     """
     position = syst.position
-    for i in range(0, P.N):
+    for i in range(0, syst.N):
         # Applying to the i th particle
         
         for j in range(0,3):

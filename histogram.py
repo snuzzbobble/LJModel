@@ -10,7 +10,7 @@ Created on Sun Feb 26 11:43:43 2017
 """
 
 from ParticleList import ParticleSyst as P
-import mathplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import numpy as np
 
 

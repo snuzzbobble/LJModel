@@ -7,8 +7,6 @@ Created on Tue Feb 28 12:49:52 2017
 @author: Cara Lynch
 """
 
-import math
-import numpy as np
 from ParticleList import ParticleSyst as P
 import LennardJones as lj
 import PBC
@@ -32,7 +30,7 @@ def VelVerlet(dt, syst, boxdim, R_c, time):
     force = lj.ljforce(syst, boxdim, R_c)
     
     # Update particle position
-    P.leapPos2nd(dt, force)
+    P.leapPos2nd(syst, dt, force)
     
     # Apply periodic boundary conditions to position update
     syst.position = PBC.PBCpos(syst, boxdim)

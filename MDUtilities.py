@@ -16,7 +16,7 @@ def setInitialPositions(rho, syst):
     :return: size of the box as a (1,3) Numpy array
     """
     # Determine number of particles
-    nAtoms = P.N(syst)
+    nAtoms = syst.N
     
     # Set box dimensions
     boxSize = (nAtoms/rho)**(1./3.)
@@ -72,8 +72,7 @@ def setInitialVelocities(temp, syst):
     :param syst: system of N particles represented as a ParticleSyst instance
     """
     # Determine number of particles
-    nAtoms = P.N(syst)
-
+    nAtoms = syst.N
     # Zero the accumulators
     xv0 = 0.0
     yv0 = 0.0
