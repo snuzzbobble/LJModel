@@ -21,7 +21,7 @@ class ParticleSyst(object) :
         :param N: number of particles in system
         :param pos: positions of the particles as an (N,3) Numpy array
         :param vel: velocities of the particle as an (N,3) Numpy array
-        :param mass: mass of the particles as an (N,1) Numpy array
+        :param mass: mass of the particles as a float
         """
         self.name = name
         self.label = label
@@ -64,7 +64,8 @@ class ParticleSyst(object) :
         """
         energy = 0.0
         for i in range(0, self.N):
-            energy = energy + 0.5*self.mass[i]*self.velmag(self, i)**2
+            speed = velmag(self, i)
+            energy = energy + 0.5*self.mass*speed**2
         return energy
 
     # Time integration methods
@@ -113,9 +114,9 @@ class ParticleSyst(object) :
         :return: N strings
         """
         total = str()
-        total = total + str(self.N) + "/n" + "Point = " + str(k) + "/n"
+        total = total + str(self.N) + "\n" + "Point = " + str(k) + "\n"
         for i in range(0,self.N):
-            total = total + str(self.label[i]) + " " + str(self.position[i,0]) + " " + str(self.position[i,1]) + " " + str(self.position[i,2]) + "/n"
+            total = total + str(self.label[i]) + " " + str(self.position[i,0]) + " " + str(self.position[i,1]) + " " + str(self.position[i,2]) + "\n"
         return total
 		 
 
@@ -135,10 +136,10 @@ class ParticleSyst(object) :
         line0 = lines[0].split()
         name = str(line0[0])
         N = int(line0[1])
+	mass = float(line0[2])
 	
         # Create Numpy arrays to hold system information
-        label = np.empty([N,1], dtype = str)
-        mass = np.empty([N,1], dtype = float)
+        label = [None]*N
         pos = np.empty([N,3], dtype = float)
         vel = np.empty([N,3], dtype = float)
 	
@@ -148,19 +149,16 @@ class ParticleSyst(object) :
               line = lines[i+1].split()
 		
 		# Add label of particle i to label array
-              label[0] = str(line[0])
-		
-		# Add mass of particle i to mass array
-              mass[0] = float(line[1])
+              label[i] = str(line[0])
 		
 		# Add position of particle i to row i of position array
-              pos[i,0] = float(line[2])
-              pos[i,1] = float(line[3])
-              pos[i,2] = float(line[4])
+              pos[i,0] = float(line[1])
+              pos[i,1] = float(line[2])
+              pos[i,2] = float(line[3])
 		
 		# Add velocity of particle i to 
-              vel[i,0] = float(line[5])
-              vel[i,1] = float(line[6])
-              vel[i,2] = float(line[7])
+              vel[i,0] = float(line[4])
+              vel[i,1] = float(line[5])
+              vel[i,2] = float(line[6])
 
         return ParticleSyst(name, label, pos, vel, mass, N)

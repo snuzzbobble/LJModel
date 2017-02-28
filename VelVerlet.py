@@ -21,7 +21,7 @@ def totE(syst, boxdim, R_c):
     :param R_c: cutoff radius
     :return: total energy of system as a float
     """
-    return P.kineticenergy(syst) + lj.totPE(syst, boxdim, R_c)
+    return P.kineticEnergy(syst) + lj.totPE(syst, boxdim, R_c)
 
 def VelVerlet(dt, syst, boxdim, R_c, time):
     """

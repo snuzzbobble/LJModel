@@ -60,7 +60,10 @@ for i in range(1, numstep):
     
     # Increase timestep number
     k += 1
-    
+
+# Close output files    
+VMDfile.close()
+RDFfile.close()
     
 # Histogram for RDF function
 hist.histogram("rdf.out")

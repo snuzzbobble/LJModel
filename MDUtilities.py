@@ -73,6 +73,7 @@ def setInitialVelocities(temp, syst):
     """
     # Determine number of particles
     nAtoms = syst.N
+    print nAtoms
     # Zero the accumulators
     xv0 = 0.0
     yv0 = 0.0
@@ -115,8 +116,8 @@ def setInitialVelocities(temp, syst):
     for i in range(nAtoms):
         vtempx = syst.velocity[i,0]
         xvt = kB*(vtempx - xv0)
-        syst.velocity[i,0] = xvt
-        
+        syst.velocity[i,0] = xvt     
+
         vtempy = syst.velocity[i,1]
         yvt = kB*(vtempy - yv0)
         syst.velocity[i,1] = yvt
