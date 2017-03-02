@@ -12,6 +12,7 @@ Created on Sun Feb 26 11:43:43 2017
 from ParticleList import ParticleSyst as P
 import matplotlib.pyplot as plt
 import numpy as np
+import math
 
 
 
@@ -26,14 +27,15 @@ def particledistances(syst, fileName, k):
     :param dt: time interval
     """
     
-    # Create empty array to hold radial distances from reference particle at each timestep
-    radialdistance = np.empty([P.N(syst) - 1,1])
+  
     """
     # Open output file for writing
     outfile = open(fileName, "w")
     outfile.write("{0:f} \n".format(radialdistance[0]))
     """
-    for i in range(0, P.N(syst)):
+
+    
+    for i in range(0, syst.N):
         
         # If reference particle, do not calculate distance
         if i == k:
@@ -44,9 +46,8 @@ def particledistances(syst, fileName, k):
             squaredDistance = 0.0
             for u in range(0,3):
                 squaredDistance += (syst.position[i,u] - syst.position[k,u])**2
-            radialdistance[i] = squaredDistance
-        
-        outfile.write("{0:f} \n".format(radialdistance[i]))
+            radialdistance = math.sqrt(squaredDistance)
+            fileName.write(str(radialdistance) + "\n")
         
 def histogram(fileName):
     
@@ -56,13 +57,13 @@ def histogram(fileName):
     
     # Count number of elements in distances list to create array
     num = len(distances)
-    rdfArray = np.empty([1,num])
+    rdfArray = np.empty([num])
     
     # Assign list values as floats into array
-    for i in range(0,num +1):
+    for i in range(0,num):
         rdfArray[i] = float(distances[i])
     
     # Create and plot normalised histogram
-    plt.histogram(rdfArray, bins = 'auto', density = True)
+    plt.hist(rdfArray, bins = 'auto', density = True)
     plt.title("Radial distribution function")
     plt.show()

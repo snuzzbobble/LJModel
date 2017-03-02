@@ -12,7 +12,7 @@ from ParticleList import ParticleSyst as P
 import VelVerlet as vv
 import MDUtilities as md
 import histogram as hist
-
+"""
 # Read name of input file and value of density and temperature from command line
 if len(sys.argv)!=4:
     print("Wrong number of arguments")
@@ -22,9 +22,12 @@ else:
     infile = sys.argv[1]  # System input file
     rho = float(sys.argv[2]) # Density of system
     temp = float(sys.argv[3])
+"""
     
 # Create ParticleSyst instance
-System = P.createsystem(infile)
+System = P.createsystem("system1.in")
+rho = 1.0
+temp = 200.0
 
 # Initialise with MDUtilities
 boxdim = md.setInitialPositions(rho, System)
@@ -52,7 +55,7 @@ for i in range(1, numstep):
     trajectory = P.printVMD(System, k)
     VMDfile.write(trajectory)
     
-    for l in range(0, P.N):
+    for l in range(0, System.N):
         
         # Output radial distances for RDF
         hist.particledistances(System, RDFfile,l)
