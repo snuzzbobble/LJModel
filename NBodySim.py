@@ -12,32 +12,27 @@ from ParticleList import ParticleSyst as P
 import VelVerlet as vv
 import MDUtilities as md
 import histogram as hist
-"""
-# Read name of input file and value of density and temperature from command line
-if len(sys.argv)!=4:
-    print("Wrong number of arguments")
-    print("Usage: " + sys.argv[0] + "<input file> <density as float> < temperature >")
-    quit()
-else:
-    infile = sys.argv[1]  # System input file
-    rho = float(sys.argv[2]) # Density of system
-    temp = float(sys.argv[3])
-"""
+
+
+# Ask for name of system file
+systemFile = str(raw_input("Name of file representing the system: "))
+
+# Ask for density and temperature
+rho = float(raw_input("Density of system: "))
+temp = float(raw_input("Temperature of system: "))
     
 # Create ParticleSyst instance
-System = P.createsystem("system1.in")
-rho = 1.0
-temp = 200.0
+System = P.createsystem(systemFile)
 
 # Initialise with MDUtilities
 boxdim = md.setInitialPositions(rho, System)
 md.setInitialVelocities(temp, System)
 
-# Set simulation parameters
-numstep = 100
+# Ask for and set simulation parameters
+numstep = int(raw_input("Number of steps for time integration: "))
 time = 0.0
-dt = 0.2 # timestep
-r_c = 3.0 #cutoff radius
+dt = float(raw_input("Time step: ")) # timestep
+r_c = float(raw_input("Cutoff radius (usually between 2.5 and 3.5): ")) #cutoff radius
 k = 1 # timestep number
 
 # Open output file for VMD trajectory information
