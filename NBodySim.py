@@ -41,7 +41,7 @@ r_c = 3.0 #cutoff radius
 k = 1 # timestep number
 
 # Open output file for VMD trajectory information
-VMDfile = open("VMD.out", "w")
+VMDfile = open("VMD.xyz", "w")
 
 # Open output file for radial distribution function information
 RDFfile = open("rdf.out", "w")
