@@ -65,15 +65,15 @@ for i in range(1, numstep):
             # MSD calculation
             displacementarray = System.position - initialpositions
         
-            MSDtimesN = 0.0
-            # Sum over all squared displacements
-            for m in range(0, System.N):
-                MSDtimesN += displacementarray[m]**2
+        MSDtimesN = 0.0
+        # Sum over all squared displacements
+        for m in range(0, System.N):
+            MSDtimesN += displacementarray[m]**2
             # Divide by N
-            MSD = MSD/System.N
+        MSD = MSD/System.N
             
-            # Add to MSD file
-            MSDfile.write(str(MSD) + "\n")
+        # Add to MSD file
+        MSDfile.write(str(MSD) + "\n")
     
     # Increase timestep number tracker
     k += 1
@@ -81,6 +81,7 @@ for i in range(1, numstep):
 # Close output files    
 VMDfile.close()
 RDFfile.close()
+MSDfile.close()
     
 # Histogram for RDF function
 hist.histogram("rdf.out")
