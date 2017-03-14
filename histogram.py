@@ -27,10 +27,8 @@ def particledistances(syst, fileName, k):
    
     # Create empty array to hold radial distances from reference particle at each timestep  
     radialdistance = np.empty(shape=(syst.N))
-    
-    # Open output file for writing
-    outfile = open(fileName,"w")
-    outfile.write("{0:s} \n".format(radialdistance[0]))
+
+
     
     for i in range(0, syst.N):
         
@@ -45,7 +43,7 @@ def particledistances(syst, fileName, k):
                 squaredDistance += (syst.position[i,u] - syst.position[k,u])**2
             radialdistance[i] = math.sqrt(squaredDistance)
         
-        outfile.write("{0:} \n".format(radialdistance[i]))
+        fileName.write("{0:} \n".format(radialdistance[i]))
         
 def histogram(fileName):
     
