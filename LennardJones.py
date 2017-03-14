@@ -31,10 +31,7 @@ def ljforce(system,boxdim,Rc) :
         # With relation to j th particle ---would this count the particles twice?---
         for j in range(0, system.N):
 
-            if j == i:
-                # not computing the effect the particle has on itself
-                pass
-            else:
+            if j != i:
                 vecsep = np.empty(shape=(3))
                 for k in range(0,3):
                     
@@ -42,15 +39,15 @@ def ljforce(system,boxdim,Rc) :
                     vecsep[k] = system.position[i,k] - system.position[j,k]
                     
                     # Minimum image convention
-                    if abs(vecsep[k]) > abs(boxdim[k]/2) :
+                    if abs(vecsep[k]) > abs(boxdim[k]/2.) :
                         
                         # If the separation is negative, then the image will be -L/2 in the direction considered
                         if vecsep[k] < 0:
-                            vecsep[k] = vecsep[k]%abs(boxdim[k])/2
+                            vecsep[k] = vecsep[k]%abs(boxdim[k])/2.
                             
                         # If the separation is positive, then the image will be +L/2 in the direction considered
                         else:
-                            vecsep[k] = vecsep[k]%abs(boxdim[k])/2
+                            vecsep[k] = vecsep[k]%abs(boxdim[k])/2.
                 # Magnitude of vector separation
                 r = math.sqrt(np.inner(vecsep, vecsep))
 			
@@ -58,11 +55,11 @@ def ljforce(system,boxdim,Rc) :
                 if r > Rc :
                     # If above cutoff radius set the force to 0
                     for k in range(0,3):
-                       force[i,k] = force[i,k] + 0
+                       force[i,k] += 0
                 # If not, add this contribution to the force
                 else:
                     for k in range (0,3):
-                        force[i,k] = force[i,k] + (48*((1/r**14) - (1/ (2 * r**8)) ) ) * vecsep[k]
+                        force[i,k] += (48.0*((1./r**14.0) - (1./ (2. * r**8.)) ) ) * vecsep[k]
 				      
     return force
 	
@@ -84,34 +81,32 @@ def ljpotential(system,boxdim,Rc) :
         # With relation to j th particle
         for j in range(0, system.N):
             
-            if j == i:
-                # not computing the effect the particle has on itself
-                pass
-            
-            else:
+            if j != i:
                 vecsep = np.empty(shape=(3))
                 for k in range(0,3):
                     
                     # Calculate the vector separation of the particles
                     vecsep[k] = system.position[i,k] - system.position[j,k]
                     
-                    # Minimum image convention
-                    while abs(vecsep[k]) > abs(boxdim[k]/2) :
+                   # Minimum image convention
+                    if abs(vecsep[k]) > abs(boxdim[k]/2.) :
+                        
                         # If the separation is negative, then the image will be -L/2 in the direction considered
                         if vecsep[k] < 0:
-                            vecsep[k] = vecsep[k] - abs(boxdim[k])/2
+                            vecsep[k] = vecsep[k]%abs(boxdim[k])/2.
+                            
                         # If the separation is positive, then the image will be +L/2 in the direction considered
                         else:
-                            vecsep[k] = vecsep[k] + abs(boxdim[k])/2
+                            vecsep[k] = vecsep[k]%abs(boxdim[k])/2.
                 # Magnitude of vector separation
                 r = math.sqrt(np.inner(vecsep, vecsep))
                 
                 # Cutoff radius
                 if r > Rc :
-                    potential[i] = potential[i] + 0
+                    potential[i] += 0
 			# Add this contribution to the overall potential array
                 else:
-                    potential[i] = potential[i] + (4*((1/r**12) - (1/ (r**6)) ) )
+                    potential[i] += (4.*((1./r**12.) - (1./ (r**6.)) ) )
 				      
     return potential
 
@@ -134,6 +129,6 @@ def totPE(system, boxdim, Rc):
     for i in range(0,system.N):
         doubletotalPE += potential[i]
     # Every interaction is counted twice so must divide potential calculated by 2
-    return doubletotalPE/2
+    return doubletotalPE/2.0
 
  
