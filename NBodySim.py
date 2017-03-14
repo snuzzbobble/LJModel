@@ -70,7 +70,7 @@ for i in range(1, numstep):
         for m in range(0, System.N):
             MSDtimesN += displacementarray[m]**2
             # Divide by N
-        MSD = MSD/System.N
+        MSD = MSDtimesN/System.N
             
         # Add to MSD file
         MSDfile.write(str(MSD) + "\n")
