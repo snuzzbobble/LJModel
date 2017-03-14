@@ -13,17 +13,36 @@ import VelVerlet as vv
 import MDUtilities as md
 import histogram as hist
 import numpy as np
+import random
 
 
-# Ask for name of system file
-systemFile = str(raw_input("Name of file representing the system: "))
+name = str(raw_input("Name of system: "))
+N = int(raw_input("Number of particles in system as an integer: "))
+m = float(raw_input("Mass of particles in system as a float: "))
+rho = float(raw_input("Density of system as a float: "))
+boxdim = (N/rho)**(1./3.)
 
-# Ask for density and temperature
-rho = float(raw_input("Density of system: "))
+# Open system file for writing
+systemFile = open("system.in", "w")
+
+systemFile.write(name + " " + str(N) + " " + str(m) + "\n")
+
+for i in range (0, N):
+    label = "p" + str(i)
+    pos1 = random.uniform(0.0, boxdim)
+    pos2 = random.uniform(0.0, boxdim)
+    pos3 = random.uniform(0.0, boxdim)
+    systemFile.write(label + " " + str(pos1) + " " + str(pos2) + " " + str(pos3) + " 0.0 0.0 0.0 \n")
+
+systemFile.close()
+
+
+
+# Ask for temperature
 temp = float(raw_input("Temperature of system: "))
-    
+   
 # Create ParticleSyst instance
-System = P.createsystem(systemFile)
+System = P.createsystem("system.in")
 
 # Initialise with MDUtilities
 boxdim = md.setInitialPositions(rho, System)
@@ -49,7 +68,6 @@ MSDfile = open("msd.out","w")
 # Save initial positions to an array to compute the MSD
 initialpositions = System.position
 
-print System.position
 
 # Start time integration loop
 for i in range(1, numstep):
@@ -76,8 +94,8 @@ for i in range(1, numstep):
             # Divide by N
         MSD = MSDtimesN/System.N
             
-        # Add to MSD file with format: time MSD
-        MSDfile.write(str(i*dt) + str(MSD) + "\n")
+        # Add to MSD file with format: timestep MSD
+        MSDfile.write(str(i)+ " " + str(MSD) + "\n")
     
     # Increase timestep number tracker
     k += 1
