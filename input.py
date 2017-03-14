@@ -15,7 +15,7 @@ systemFile = open("system.in", "w")
 
 systemFile.write(name + str(N) + str(m) + "\n")
 
-for i in range (0, N)
+for i in range (0, N):
     label = "p" + str(i)
     systemFile.write(label + "0.0 0.0 0.0 0.0 0.0 0.0 \n")
 
