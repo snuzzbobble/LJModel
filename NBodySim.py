@@ -29,6 +29,7 @@ System = P.createsystem(systemFile)
 boxdim = md.setInitialPositions(rho, System)
 md.setInitialVelocities(temp, System)
 
+
 # Ask for and set simulation parameters
 numstep = int(raw_input("Number of steps for time integration: "))
 time = 0.0
@@ -47,6 +48,8 @@ MSDfile = open("msd.out","w")
 
 # Save initial positions to an array to compute the MSD
 initialpositions = System.position
+
+print System.position
 
 # Start time integration loop
 for i in range(1, numstep):
@@ -73,8 +76,8 @@ for i in range(1, numstep):
             # Divide by N
         MSD = MSDtimesN/System.N
             
-        # Add to MSD file
-        MSDfile.write(str(MSD) + "\n")
+        # Add to MSD file with format: time MSD
+        MSDfile.write(str(i*dt) + str(MSD) + "\n")
     
     # Increase timestep number tracker
     k += 1

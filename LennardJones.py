@@ -27,8 +27,11 @@ def ljforce(system,boxdim,Rc) :
 	
     # Compute for i th particle
     for i in range(0, system.N):
+
+
         # With relation to j th particle ---would this count the particles twice?---
         for j in range(0, system.N):
+
             if j == i:
                 # not computing the effect the particle has on itself
                 pass
@@ -49,18 +52,18 @@ def ljforce(system,boxdim,Rc) :
                         # If the separation is positive, then the image will be +L/2 in the direction considered
                         else:
                             vecsep[k] = vecsep[k]%abs(boxdim[k])/2
-                    # Magnitude of vector separation
-                    r = math.sqrt(np.inner(vecsep, vecsep))
+                # Magnitude of vector separation
+                r = math.sqrt(np.inner(vecsep, vecsep))
 			
-                    # Cutoff radius condition
-                    if r > Rc :
-                        # If above cutoff radius set the force to 0
-                        for k in range(0,3):
-                            force[i,k] = force[i,k] + 0
-                    # If not, add this contribution to the force
-                    else:
-                        for k in range (0,3):
-                            force[i,k] = force[i,k] + (48*((1/r**14) - (1/ (2 * r**8)) ) ) * vecsep[k]
+                # Cutoff radius condition
+                if r > Rc :
+                    # If above cutoff radius set the force to 0
+                    for k in range(0,3):
+                       force[i,k] = force[i,k] + 0
+                # If not, add this contribution to the force
+                else:
+                    for k in range (0,3):
+                        force[i,k] = force[i,k] + (48*((1/r**14) - (1/ (2 * r**8)) ) ) * vecsep[k]
 				      
     return force
 	
