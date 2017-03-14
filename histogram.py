@@ -14,8 +14,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 
-
-
 def particledistances(syst, fileName, k):
     """
     Collects distances between pairs of particles at a specific point in time with respect to the k th particle and exports into a file.
@@ -26,14 +24,13 @@ def particledistances(syst, fileName, k):
     :param k: index of reference particle
     :param dt: time interval
     """
+   
+    # Create empty array to hold radial distances from reference particle at each timestep  
+    radialdistance = np.empty(shape=(syst.N))
     
-  
-    """
     # Open output file for writing
-    outfile = open(fileName, "w")
-    outfile.write("{0:f} \n".format(radialdistance[0]))
-    """
-
+    outfile = open(fileName,"w")
+    outfile.write("{0:s} \n".format(radialdistance[0]))
     
     for i in range(0, syst.N):
         
@@ -46,24 +43,31 @@ def particledistances(syst, fileName, k):
             squaredDistance = 0.0
             for u in range(0,3):
                 squaredDistance += (syst.position[i,u] - syst.position[k,u])**2
-            radialdistance = math.sqrt(squaredDistance)
-            fileName.write(str(radialdistance) + "\n")
+            radialdistance[i] = math.sqrt(squaredDistance)
+        
+        outfile.write("{0:} \n".format(radialdistance[i]))
         
 def histogram(fileName):
     
     # Open the file of radial distances for reading
     fileIn = open(fileName, "r")
     distances = fileIn.readlines()
-    
+    print distances
     # Count number of elements in distances list to create array
     num = len(distances)
-    rdfArray = np.empty([num])
+    rdfArray = np.empty(shape=(num))
     
     # Assign list values as floats into array
     for i in range(0,num):
         rdfArray[i] = float(distances[i])
     
+        
+    rdf = rdfArray
+    print rdf
+    
     # Create and plot normalised histogram
-    plt.hist(rdfArray, bins = 'auto', density = True)
+    x,bins,p=plt.hist(rdf, normed=1)
+    
     plt.title("Radial distribution function")
     plt.show()
+    
