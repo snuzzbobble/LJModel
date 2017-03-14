@@ -50,7 +50,6 @@ def histogram(fileName):
     # Open the file of radial distances for reading
     fileIn = open(fileName, "r")
     distances = fileIn.readlines()
-    print distances
     # Count number of elements in distances list to create array
     num = len(distances)
     rdfArray = np.empty(shape=(num))
@@ -61,7 +60,6 @@ def histogram(fileName):
     
         
     rdf = rdfArray
-    print rdf
     
     # Create and plot normalised histogram
     x,bins,p=plt.hist(rdf, normed=1)
