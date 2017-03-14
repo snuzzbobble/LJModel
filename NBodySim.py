@@ -57,7 +57,7 @@ for i in range(1, numstep):
     VMDfile.write(trajectory)
     
     # Only save trajectory information for RDF and MSD every second timestep
-    if i%2 = 0:
+    if i%2 == 0:
         # RDF histogram calculation
         for l in range(0, System.N):
             # Output radial distances for RDF
