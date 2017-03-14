@@ -9,7 +9,6 @@ Created on Sun Feb 26 11:43:43 2017
 @author: Cara Lynch
 """
 
-from ParticleList import ParticleSyst as P
 import matplotlib.pyplot as plt
 import numpy as np
 import math

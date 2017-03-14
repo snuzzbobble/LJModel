@@ -4,7 +4,6 @@ Module for user to create files with system information.
 Cara Lynch
 """
 
-import sys
 import random
 
 

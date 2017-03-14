@@ -90,7 +90,7 @@ for i in range(1, numstep):
         MSDtimesN = 0.0
         # Sum over all squared displacements
         for m in range(0, System.N):
-	    MSDtimesN += np.inner(displacementarray[m],displacementarray[m])
+            MSDtimesN += np.inner(displacementarray[m],displacementarray[m])
             # Divide by N
         MSD = MSDtimesN/System.N
             

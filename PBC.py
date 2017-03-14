@@ -9,7 +9,6 @@ Created on Wed Feb 22 21:03:52 2017
 @author: Cara Lynch
 """
 
-from ParticleList import ParticleSyst as P
 
 
 def PBCpos(syst, boxdim):

@@ -11,7 +11,6 @@ Cara Lynch
 
 import math
 import numpy as np
-from ParticleList import ParticleSyst as P
 
 
 def ljforce(system,boxdim,Rc) :
