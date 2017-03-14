@@ -41,6 +41,12 @@ VMDfile = open("VMD.xyz", "w")
 # Open output file for radial distribution function information
 RDFfile = open("rdf.out", "w")
 
+# Open output file for mean squared displacement information
+MSDfile = open("msd.out","w")
+
+# Save initial positions to an array to compute the MSD
+initialpositions = System.position
+
 # Start time integration loop
 for i in range(1, numstep):
     # Perform VV time integration
@@ -50,13 +56,26 @@ for i in range(1, numstep):
     trajectory = P.printVMD(System, k)
     VMDfile.write(trajectory)
     
-    for l in range(0, System.N):
+    # Only save trajectory information for RDF and MSD every second timestep
+    if i%2 = 0:
+        # RDF histogram calculation
+        for l in range(0, System.N):
+            # Output radial distances for RDF
+            hist.particledistances(System, RDFfile,l)
+            # MSD calculation
+            displacementarray = System.position - initialpositions
         
-        # Output radial distances for RDF
-        hist.particledistances(System, RDFfile,l)
+            MSDtimesN = 0.0
+            # Sum over all squared displacements
+            for m in range(0, System.N):
+                MSDtimesN += displacementarray[m]**2
+            # Divide by N
+            MSD = MSD/System.N
+            
+            # Add to MSD file
+            MSDfile.write(str(MSD) + "\n")
     
-    
-    # Increase timestep number
+    # Increase timestep number tracker
     k += 1
 
 # Close output files    
