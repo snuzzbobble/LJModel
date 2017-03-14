@@ -12,6 +12,7 @@ from ParticleList import ParticleSyst as P
 import VelVerlet as vv
 import MDUtilities as md
 import histogram as hist
+import numpy as np
 
 
 # Ask for name of system file
@@ -68,7 +69,7 @@ for i in range(1, numstep):
         MSDtimesN = 0.0
         # Sum over all squared displacements
         for m in range(0, System.N):
-            MSDtimesN += displacementarray[m]**2
+	    MSDtimesN += np.inner(displacementarray[m],displacementarray[m])
             # Divide by N
         MSD = MSDtimesN/System.N
             
