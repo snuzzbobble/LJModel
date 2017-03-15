@@ -51,9 +51,8 @@ class ParticleSyst(object) :
 
         speedsquared = 0.0
         for k in range(0,3):
-            speedsquared = speedsquared + (self.velocity[i,k])**2
-            speed = math.sqrt(speedsquared)
-        return speed
+            speedsquared +=(self.velocity[i,k])**2.
+        return math.sqrt(speedsquared)
 	
     # Kinetic energy
     def kineticEnergy(self):
@@ -66,7 +65,7 @@ class ParticleSyst(object) :
         energy = 0.0
         for i in range(0, self.N):
             speed = self.velmag(i)
-            energy = energy + 0.5*self.mass*speed**2
+            energy = energy + 0.5*self.mass*speed**2.
         return energy
 
     # Time integration methods
@@ -137,7 +136,7 @@ class ParticleSyst(object) :
         line0 = lines[0].split()
         name = str(line0[0])
         N = int(line0[1])
-	mass = float(line0[2])
+        mass = float(line0[2])
 	
         # Create Numpy arrays to hold system information
         label = [None]*N
