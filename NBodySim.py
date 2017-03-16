@@ -17,13 +17,30 @@ import random
 import LennardJones as lj
 import time as systime
 
+# Input file name from command line
+fileName = str(input("File name: "))
+dt = float(input("timestep: "))
 
-name = str(input("Name of system: "))
-N = int(input("Number of particles in system as an integer: "))
-m = float(input("Mass of particles in system as a float: "))
-rho = float(input("Density of system as a float: "))
-temp = float(input("Temperature of system: "))
+# Open file for reading 
+file = open(fileName, "r")
+lines = file.readlines()
+line0 = lines[0].split()
+line1 = lines[1].split()
 
+# Extract simulation parameters
+name = str(line0[0]) #name of system
+N = int(line0[1]) # number of particles
+temp = float(line0[2]) # temperature
+rho = float(line0[3]) # density
+r_c = float(line1[0]) # LJ cutoff radius
+numstep = int(line1[1]) # number of steps
+# dt = float(line1[2]) # timestep
+
+
+
+
+# Set additional parameters
+m = 1.0
 boxdim = (N/rho)**(1./3.)
 
 # Open system file for writing
@@ -51,11 +68,7 @@ boxdim = md.setInitialPositions(rho, System)
 md.setInitialVelocities(temp, System)
 
 
-# Ask for and set simulation parameters
-numstep = int(input("Number of steps for time integration: "))
-dt = float(input("Time step: ")) # timestep
-r_c = float(input("Cutoff radius (usually between 2.5 and 3.5): ")) #cutoff radius
-k = 1 # timestep number
+k = 0 # timestep number
 
 # Open output file for VMD trajectory information
 VMDfile = open("VMD.xyz", "w")
@@ -86,7 +99,7 @@ Energyfile.write("0 " + str(P.kineticEnergy(System)) + " "  + str(lj.totPE(Syste
 for i in range(1, numstep):
     # Perform VV time integration
     vv.VelVerlet(dt, System, boxdim, r_c)
-    
+    force = lj.ljforce(System,boxdim,r_c)
     # Output trajectory information for VMD file
     trajectory = P.printVMD(System, k)
     VMDfile.write(trajectory)
@@ -100,23 +113,23 @@ for i in range(1, numstep):
     Energyfile.write(str(i) + " " + str(P.kineticEnergy(System)) + " "  + str(lj.totPE(System,boxdim,r_c)) + " " + str(vv.totE(System, boxdim, r_c)) + "\n")
     
     # Only save trajectory information for RDF and MSD every second timestep
-    if i%2 == 0:
-        # RDF histogram calculation
-        for l in range(0, System.N):
-            # Output radial distances for RDF
-            hist.particledistances(System, RDFfile,l)
-            # MSD calculation
-            displacementarray = System.position - initialpositions
+    # if i%2. == 0:
+    # RDF histogram calculation
+    for l in range(0, System.N):
+        # Output radial distances for RDF
+        hist.particledistances(System, RDFfile,l)
+        # MSD calculation
+        displacementarray = System.position - initialpositions
         
-        MSDtimesN = 0.0
-        # Sum over all squared displacements
-        for m in range(0, System.N):
-            MSDtimesN += np.inner(displacementarray[m],displacementarray[m])
-            # Divide by N
-        MSD = MSDtimesN/System.N
+    MSDtimesN = 0.0
+    # Sum over all squared displacements
+    for m in range(0, System.N):
+        MSDtimesN += np.inner(displacementarray[m],displacementarray[m])
+        # Divide by N
+    MSD = MSDtimesN/System.N
             
-        # Add to MSD file with format: timestep MSD
-        MSDfile.write(str(i)+ " " + str(MSD) + "\n")
+    # Add to MSD file with format: timestep MSD
+    MSDfile.write(str(i)+ " " + str(MSD) + "\n")
     
     # Increase timestep number tracker
     k += 1
