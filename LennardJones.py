@@ -9,8 +9,8 @@ Cara Lynch
 21/02/2017
 """
 
-import math
 import numpy as np
+from ParticleList import ParticleSyst as P
 
 
 def ljforce(system,boxdim,Rc) :
@@ -22,45 +22,27 @@ def ljforce(system,boxdim,Rc) :
     :param Rc: cutoff radius as a float
     :return force: an (N,3) Numpy array where the ith row is the force experienced by the ith particle
     """
-    force = np.empty(shape=(system.N,3))
-	
-    # Compute for i th particle
-    for i in range(0, system.N):
-
-
-        # With relation to j th particle ---would this count the particles twice?---
-        for j in range(0, system.N):
-
-            if j != i:
-                vecsep = np.empty(shape=(3))
-                for k in range(0,3):
-                    
-                    # Calculate the vector separation of the particles adhering to the minimum image convention
-                    vecsep[k] = system.position[i,k] - system.position[j,k]
-                    
-                    # Minimum image convention
-                    if abs(vecsep[k]) > abs(boxdim[k]/2.) :
-                        
-                        # If the separation is negative, then the image will be -L/2 in the direction considered
-                        if vecsep[k] < 0:
-                            vecsep[k] = vecsep[k]%abs(boxdim[k])/2.
-                            
-                        # If the separation is positive, then the image will be +L/2 in the direction considered
-                        else:
-                            vecsep[k] = vecsep[k]%abs(boxdim[k])/2.
-                # Magnitude of vector separation
-                r = math.sqrt(np.inner(vecsep, vecsep))
-			
+    # Create force array with initial condition of 0.0 force everywhere
+    force = np.zeros(shape=(system.N,3))
+    
+    # Compute force on ith particle
+    for i in range (0,system.N):
+        # Compute magnituge of vector separation and vector separation (both arrays)
+        r = P.sepmag(system,boxdim,i)
+        rvec = P.MICvecsep(system,boxdim,i)
+        
+        # Compute with respect to jth particle
+        for j in range(0,system.N):
+            # Not computing force particle has on itself
+            if i !=j :
                 # Cutoff radius condition
-                if r > Rc :
-                    # If above cutoff radius set the force to 0
+                if r[j]<Rc:
                     for k in range(0,3):
-                       force[i,k] += 0
-                # If not, add this contribution to the force
+                        force[i,k] += 48.*(1./(r[j]**14.) + 1./(2.*r[j]**8.))*rvec[j,k]
                 else:
-                    for k in range (0,3):
-                        force[i,k] += (48.0*((1./r**14.0) - (1./ (2. * r**8.)) ) ) * vecsep[k]
-				      
+                    pass
+            else:
+                pass
     return force
 	
 def ljpotential(system,boxdim,Rc) :
@@ -73,41 +55,25 @@ def ljpotential(system,boxdim,Rc) :
     :return force: an (N,1) Numpy array where the ith row is the potential of the ith particle
     """
     
-    potential = np.empty(shape=(system.N))
+    # Create potential array with initial condition of 0.0 potential on each particle
+    potential = np.zeros(shape=(system.N))
     
-    # Compute for i th particle
-    for i in range(0, system.N):
+    # Compute potential of ith particle
+    for i in range (0,system.N):
+        # Compute magnituge of vector separation with respect to all particles
+        r = P.sepmag(system,boxdim,i)
         
-        # With relation to j th particle
-        for j in range(0, system.N):
-            
-            if j != i:
-                vecsep = np.empty(shape=(3))
-                for k in range(0,3):
-                    
-                    # Calculate the vector separation of the particles
-                    vecsep[k] = system.position[i,k] - system.position[j,k]
-                    
-                   # Minimum image convention
-                    if abs(vecsep[k]) > abs(boxdim[k]/2.) :
-                        
-                        # If the separation is negative, then the image will be -L/2 in the direction considered
-                        if vecsep[k] < 0:
-                            vecsep[k] = vecsep[k]%abs(boxdim[k])/2.
-                            
-                        # If the separation is positive, then the image will be +L/2 in the direction considered
-                        else:
-                            vecsep[k] = vecsep[k]%abs(boxdim[k])/2.
-                # Magnitude of vector separation
-                r = math.sqrt(np.inner(vecsep, vecsep))
-                
-                # Cutoff radius
-                if r > Rc :
-                    potential[i] += 0
-			# Add this contribution to the overall potential array
+        # Compute potential with respect to jth particle
+        for j in range(0,system.N):
+            # Not computing potential from itself
+            if i !=j :
+                # Cutoff radius condition
+                if r[j]<Rc:
+                    potential[i]+= 4.*(1./(r[j]**12.) - 1./(r[j]**6.))
                 else:
-                    potential[i] += (4.*((1./r**12.) - (1./ (r**6.)) ) )
-				      
+                    pass
+            else:
+                pass
     return potential
 
 def totPE(system, boxdim, Rc):

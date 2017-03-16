@@ -67,6 +67,42 @@ class ParticleSyst(object) :
             speed = self.velmag(i)
             energy = energy + 0.5*self.mass*speed**2.
         return energy
+    
+    def MICvecsep(self, boxdim,n):
+        """
+        Computes the vector separation between the nth particle and all other particles as an array according to the Minimum Image Convention
+        
+        :param ParticleSyst: ParticleSyst instance
+        :param boxdim: dimensions of box
+        :param n: index of particle
+        :return: vector separation of particle with respect to all other particles as an (N,3) numpy array
+        """
+        vecsep = np.empty(shape=(self.N,3))
+        for i in range(0,self.N):
+            for j in range(0,3):
+                vecsep[i,j] = self.position[n,j] - self.position[i,j]
+                if abs(vecsep[i,j])>boxdim[j]:
+                    vecsep[i,j]=vecsep[i,j]%boxdim[j]
+        return vecsep
+        
+    def sepmag(self,boxdim,n):
+        """
+        Computes the magnitude of the vector separation between the nth particle and all other particles as an array according to the MIC
+        
+        :param ParticleSyst: ParticleSyst instance
+        :param boxdim: dimensions of box
+        :param n: index of particle
+        :return: magnitude of vector separation of particle with respect to all other particles as an (N,1) numpy array
+        """
+        vecsep = self.MICvecsep(boxdim,n)
+        sepmag = np.empty(shape=(self.N))
+        for i in range(0,self.N):
+            mag = 0.0
+            for j in range(0,3):
+                mag+= vecsep[i,j]*vecsep[i,j]
+            sepmag[i] = math.sqrt(mag)
+        return sepmag
+            
 
     # Time integration methods
     # First-order velocity update
@@ -79,7 +115,7 @@ class ParticleSyst(object) :
         :param force: force between every particle represented by an (N,3) Numpy array
         :return: updated velocity of particle represented by an (N,3) Numpy array
         """
-        self.velocity = self.velocity + dt*np.divide(force, self.mass)
+        self.velocity = self.velocity + dt/self.mass*force
 
     # First-order position update
     def leapPos1st(self, dt):
@@ -102,7 +138,7 @@ class ParticleSyst(object) :
         :param force: force as a vector represented by an (N,3) Numpy array
         :return: second order update of position of particle represented by an (N,3) Numpy array
         """
-        self.position = self.position + dt*self.velocity + 0.5*dt**2*np.divide(force, self.mass)
+        self.position = self.position + dt*self.velocity + 0.5*(dt**2)/self.mass*force
 	
     # Prints in format necessary for VMD
     def printVMD(self, k):

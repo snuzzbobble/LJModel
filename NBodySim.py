@@ -20,7 +20,7 @@ import time as systime
 
 name = str(input("Name of system: "))
 N = int(input("Number of particles in system as an integer: "))
-m = float(input("Mass of particles in system as a float: "))
+m = 1.0
 rho = float(input("Density of system as a float: "))
 temp = float(input("Temperature of system: "))
 
@@ -86,7 +86,7 @@ Energyfile.write("0 " + str(P.kineticEnergy(System)) + " "  + str(lj.totPE(Syste
 for i in range(1, numstep):
     # Perform VV time integration
     vv.VelVerlet(dt, System, boxdim, r_c)
-    
+    force = lj.ljforce(System,boxdim,r_c)
     # Output trajectory information for VMD file
     trajectory = P.printVMD(System, k)
     VMDfile.write(trajectory)
@@ -100,7 +100,7 @@ for i in range(1, numstep):
     Energyfile.write(str(i) + " " + str(P.kineticEnergy(System)) + " "  + str(lj.totPE(System,boxdim,r_c)) + " " + str(vv.totE(System, boxdim, r_c)) + "\n")
     
     # Only save trajectory information for RDF and MSD every second timestep
-    if i%2 == 0:
+    if i%2. == 0:
         # RDF histogram calculation
         for l in range(0, System.N):
             # Output radial distances for RDF
