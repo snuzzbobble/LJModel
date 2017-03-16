@@ -4,7 +4,6 @@ CMod Project B: auxiliary MD methods
 
 import random
 import numpy as np
-from ParticleList import ParticleSyst as P
 
 def setInitialPositions(rho, syst):
     
@@ -73,7 +72,7 @@ def setInitialVelocities(temp, syst):
     """
     # Determine number of particles
     nAtoms = syst.N
-    print nAtoms
+    print(nAtoms)
     # Zero the accumulators
     xv0 = 0.0
     yv0 = 0.0

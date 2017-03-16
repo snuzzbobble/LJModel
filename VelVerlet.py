@@ -23,7 +23,7 @@ def totE(syst, boxdim, R_c):
     """
     return P.kineticEnergy(syst) + lj.totPE(syst, boxdim, R_c)
 
-def VelVerlet(dt, syst, boxdim, R_c, time):
+def VelVerlet(dt, syst, boxdim, R_c):
     """
     Performs one velocity verlet time integration loop
     """
@@ -37,6 +37,4 @@ def VelVerlet(dt, syst, boxdim, R_c, time):
     force_new =  lj.ljforce(syst, boxdim, R_c)
     # Update particle velocity based on average and current new forces
     P.leapVelocity(syst, dt, 0.5*(force + force_new))
-    # Increase time
-    time += dt
     

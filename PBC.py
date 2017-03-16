@@ -26,7 +26,7 @@ def PBCpos(syst, boxdim):
         for j in range(0,3):
             # for x, y and z directions
             
-            if position[i,j] < 0:
+            if position[i,j] < 0.:
                 # if the particle is in the negative region, add a length of the box to that coordinate
                 position[i,j] = position[i,j]%boxdim[j]
             if position[i,j] > boxdim[j]:
