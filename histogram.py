@@ -63,6 +63,10 @@ def histogram(fileName):
     # Create and plot normalised histogram
     x,bins,p=plt.hist(rdf, normed=1)
     
-    plt.title("Radial distribution function")
+    pyplot.legend()
+    pyplot.title("Histogram of radial distribution function")
+    pyplot.xlabel("Distance")
+    pyplot.ylabel("Number of particles")
+    pyplot.savefig('Histogram')
     plt.show()
     
