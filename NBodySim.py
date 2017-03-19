@@ -16,6 +16,7 @@ import numpy as np
 import random
 import LennardJones as lj
 import time as systime
+import MSDplot as MSD
 
 # Input file name from command line
 fileName = str(input("File name: "))
@@ -157,6 +158,9 @@ pyplot.savefig('Energyevolution')
 
 
 pyplot.show()
+
+# plot graph of mean squared distance evolution (MSD)
+MSD.plot("msd.out")
 
     
 # Histogram for RDF function
