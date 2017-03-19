@@ -82,7 +82,10 @@ class ParticleSyst(object) :
             for j in range(0,3):
                 vecsep[i,j] = self.position[n,j] - self.position[i,j]
                 if abs(vecsep[i,j])>boxdim[j]/2.:
-                    vecsep[i,j]=vecsep[i,j]%(boxdim[j]/2.)
+                    if vecsep[i,j]>=0.0:
+                        vecsep[i,j]=vecsep[i,j]%(boxdim[j]/2.)
+                    else:
+                        vecsep[i,j]=-vecsep[i,j]%(boxdim[j]/2.)
         return vecsep
         
     def sepmag(self,boxdim,n):
