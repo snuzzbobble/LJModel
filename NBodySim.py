@@ -16,6 +16,7 @@ import numpy as np
 import random
 import LennardJones as lj
 import time as systime
+import MSDplot as MSDplot
 
 # Input file name from command line
 fileName = str(input("File name: "))
@@ -112,12 +113,10 @@ for i in range(1, numstep):
     
     Energyfile.write(str(i) + " " + str(P.kineticEnergy(System)) + " "  + str(lj.totPE(System,boxdim,r_c)) + " " + str(vv.totE(System, boxdim, r_c)) + "\n")
     
-    # Only save trajectory information for RDF and MSD every second timestep
-    # if i%2. == 0:
-    # RDF histogram calculation
+    # RDF histogram and MSD calculation
     for l in range(0, System.N):
         # Output radial distances for RDF
-        hist.particledistances(System, RDFfile,l)
+        hist.particledistances(System, RDFfile,boxdim,l)
         # MSD calculation
         displacementarray = System.position - initialpositions
         
@@ -157,6 +156,9 @@ pyplot.savefig('Energyevolution')
 
 
 pyplot.show()
+
+# plot graph of mean squared distance evolution (MSD)
+MSDplot.plot("msd.out")
 
     
 # Histogram for RDF function

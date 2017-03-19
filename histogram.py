@@ -12,8 +12,9 @@ Created on Sun Feb 26 11:43:43 2017
 import matplotlib.pyplot as plt
 import numpy as np
 import math
+from ParticleList import ParticleSyst as P
 
-def particledistances(syst, fileName, k):
+def particledistances(syst, fileName,boxdim, k):
     """
     Collects distances between pairs of particles at a specific point in time with respect to the k th particle and exports into a file.
     
@@ -21,29 +22,24 @@ def particledistances(syst, fileName, k):
     :param syst: N body system represented as a ParticleSyst instance
     :param fileName: name of file which the trajectories will be exported to as a string
     :param k: index of reference particle
-    :param dt: time interval
+    :param boxdim: boxdimensions
     """
    
-    # Create empty array to hold radial distances from reference particle at each timestep  
-    radialdistance = np.empty(shape=(syst.N))
+    # Compute radial distances from reference particle k
+    radialdistance = P.sepmag(syst,boxdim,k)
 
-
-    
     for i in range(0, syst.N):
         
-        # If reference particle, do not calculate distance
+        # If reference particle, do not append data to file
         if i == k:
             pass
         else:
+            fileName.write("{0:} \n".format(radialdistance[i]))
             
-            #Calculate magnitude of vector separation, assuming PBCs have already been applied
-            squaredDistance = 0.0
-            for u in range(0,3):
-                squaredDistance += (syst.position[i,u] - syst.position[k,u])**2
-            radialdistance[i] = math.sqrt(squaredDistance)
         
-        fileName.write("{0:} \n".format(radialdistance[i]))
-        
+
+
+
 def histogram(fileName):
     
     # Open the file of radial distances for reading
@@ -65,8 +61,8 @@ def histogram(fileName):
     
     plt.legend()
     plt.title("Histogram of radial distribution function")
-    plt.xlabel("Distance")
-    plt.ylabel("Number of particles")
+    plt.xlabel("Radial distance")
+    plt.ylabel("Frequency density")
     plt.savefig('Histogram')
     plt.show()
     
