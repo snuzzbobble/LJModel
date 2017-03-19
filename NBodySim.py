@@ -20,7 +20,12 @@ import MSDplot as MSDplot
 
 # Input file name from command line
 fileName = str(input("File name: "))
-dt = float(input("timestep: "))
+
+# Option to input timestep if needed
+# dt = float(input("timestep: "))
+
+# Ideal timestep found
+dt = 0.01
 
 # Open file for reading 
 file = open(fileName, "r")
@@ -72,16 +77,16 @@ md.setInitialVelocities(temp, System)
 k = 0 # timestep number
 
 # Open output file for VMD trajectory information
-VMDfile = open("VMD.xyz", "w")
+VMDfile = open(str(name)+"VMD.xyz", "w")
 
 # Open output file for radial distribution function information
-RDFfile = open("rdf.out", "w")
+RDFfile = open(str(name)+"rdf.out", "w")
 
 # Open output file for mean squared displacement information
-MSDfile = open("msd.out","w")
+MSDfile = open(str(name)+"msd.out","w")
 
 # Open output file for energy fluctuations in the format: Kinetic Potential Total
-Energyfile = open("energy.out","w")
+Energyfile = open(str(name)+"energy.out","w")
 
 # Save initial positions to an array to compute the MSD
 initialpositions = System.position
@@ -95,6 +100,8 @@ totEValue = [vv.totE(System, boxdim, r_c)]
 # Write values to files
 Energyfile.write("0 " + str(P.kineticEnergy(System)) + " "  + str(lj.totPE(System,boxdim,r_c)) + " " + str(vv.totE(System, boxdim, r_c)) + "\n")
 
+# Print system time at beginning of loop
+print(str(systime.strftime("%H:%M:%S") + " - " + " 0% of loop completed"))
 
 # Start time integration loop
 for i in range(1, numstep):
@@ -135,8 +142,8 @@ for i in range(1, numstep):
     
     # Give percentage of completion of simulation
     
-    if i%(numstep/10.0) == 0:
-        print(str(systime.strftime("%H:%M:%S") + " - " + str(int(i*100/numstep)) + "% Completed"))
+    if i%(numstep/20.0) == 0:
+        print(str(systime.strftime("%H:%M:%S") + " - " + str(int(i*100/numstep)) + "% of loop completed"))
 
 # Close output files    
 VMDfile.close()
@@ -152,16 +159,16 @@ pyplot.legend()
 pyplot.title("Energy over timesteps")
 pyplot.xlabel("Time step number")
 pyplot.ylabel("Energy ")
-pyplot.savefig('Energyevolution')
+pyplot.savefig(str(name)+'Energyevolution')
 
 
 pyplot.show()
 
 # plot graph of mean squared distance evolution (MSD)
-MSDplot.plot("msd.out")
+MSDplot.plot(str(name)+"msd.out",name)
 
     
 # Histogram for RDF function
-hist.histogram("rdf.out")
+hist.histogram(str(name)+"rdf.out",name)
 
 

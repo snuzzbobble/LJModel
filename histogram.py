@@ -40,7 +40,7 @@ def particledistances(syst, fileName,boxdim, k):
 
 
 
-def histogram(fileName):
+def histogram(fileName, name):
     
     # Open the file of radial distances for reading
     fileIn = open(fileName, "r")
@@ -60,9 +60,9 @@ def histogram(fileName):
     x,bins,p=plt.hist(rdf, normed=1)
     
     plt.legend()
-    plt.title("Histogram of radial distribution function")
+    plt.title("Histogram of radial distribution function for a " + str(name))
     plt.xlabel("Radial distance")
     plt.ylabel("Frequency density")
-    plt.savefig('Histogram')
+    plt.savefig(str(name)+'Histogram')
     plt.show()
     
