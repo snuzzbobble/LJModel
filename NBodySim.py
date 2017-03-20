@@ -98,7 +98,7 @@ PEValue = [lj.totPE(System,boxdim,r_c)]
 totEValue = [vv.totE(System, boxdim, r_c)]
              
 # Write values to files
-Energyfile.write("0 " + str(P.kineticEnergy(System)) + " "  + str(lj.totPE(System,boxdim,r_c)) + " " + str(vv.totE(System, boxdim, r_c)) + "\n")
+Energyfile.write("0 " + str.format("{0:.4f}",P.kineticEnergy(System)) + " "  + str.format("{0:.4f}",lj.totPE(System,boxdim,r_c)) + " " + str.format("{0:.4f}",vv.totE(System, boxdim, r_c)) + "\n")
 
 # Print system time at beginning of loop
 print(str(systime.strftime("%H:%M:%S") + " - " + " 0% of loop completed"))
@@ -118,7 +118,7 @@ for i in range(1, numstep):
     PEValue.append(lj.totPE(System,boxdim,r_c))
     totEValue.append(vv.totE(System, boxdim, r_c))
     
-    Energyfile.write(str(i) + " " + str(P.kineticEnergy(System)) + " "  + str(lj.totPE(System,boxdim,r_c)) + " " + str(vv.totE(System, boxdim, r_c)) + "\n")
+    Energyfile.write(str(i) + " " + str.format("{0:.4f}",P.kineticEnergy(System)) + " "  + str.format("{0:.4f}",lj.totPE(System,boxdim,r_c)) + " " + str.format("{0:.4f}",vv.totE(System, boxdim, r_c)) + "\n")
     
     # RDF histogram and MSD calculation
     for l in range(0, System.N):
@@ -135,7 +135,7 @@ for i in range(1, numstep):
     MSD = MSDtimesN/System.N
             
     # Add to MSD file with format: timestep MSD
-    MSDfile.write(str(i)+ " " + str(MSD) + "\n")
+    MSDfile.write(str(i)+ " " + str.format("{0:.4f}",MSD) + "\n")
     
     # Increase timestep number tracker
     k += 1

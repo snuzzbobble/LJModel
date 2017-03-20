@@ -34,7 +34,7 @@ def particledistances(syst, fileName,boxdim, k):
         if i == k:
             pass
         else:
-            fileName.write("{0:} \n".format(radialdistance[i]))
+            fileName.write("{0:.4f} \n".format(radialdistance[i]))
             
         
 
