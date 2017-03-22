@@ -38,7 +38,7 @@ There are 3 input files contained in our submission:
 
 ## Output
 
-NBodySim creates output files and plots, all in reduced units. These all have the name of system, followed by the data contained in the file, as their names.
+NBodySim creates output files and plots, all in reduced units. These all have the name of system, followed by the data contained in the file. The trajectory file must be opened in VMD to plot, using CPK representation (and reducing bond size to 0).
 
 ### Output files and format
 
