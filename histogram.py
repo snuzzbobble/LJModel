@@ -39,7 +39,7 @@ def particledistances(syst, fileName,boxdim, k):
 
 
 
-def histogram(fileName, name, syst, rho, numstep):
+def histogram(fileName, name, syst, rho):
     """
     Plots a normalised histogram of the radial distribution function.
     
@@ -47,7 +47,6 @@ def histogram(fileName, name, syst, rho, numstep):
     :param name: name of system as a string
     :param syst: ParticleSyst instance representing the system
     :param rho: density of system
-    :param numstep: number of timesteps
     """
     
     # Open the file of radial distances for reading
@@ -67,7 +66,7 @@ def histogram(fileName, name, syst, rho, numstep):
     # Normalise histogram
     histnormalised = hist
     for i in range(0, hist.size):
-        histnormalised[i] = hist[i]/(4*math.pi*bin_edges[i]**(2)*rho*syst.N*numstep*dr)
+        histnormalised[i] = hist[i]/(4*math.pi*bin_edges[i]**(2)*rho*syst.N*dr)
     
     # Delete one element of bin_edges array so that histnormalised and xdata have the same shape
     xdata = np.delete(bin_edges,hist.size-1)

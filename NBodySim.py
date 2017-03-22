@@ -194,7 +194,7 @@ MSDplot.plot(str(name)+"msd.out",name)
 
     
 # Histogram for RDF function
-hist.histogram(str(name)+"rdf.out",name, System, rho, numstep)
+hist.histogram(str(name)+"rdf.out",name, System, rho)
 
 
 # plot graph of energy fluctuations
