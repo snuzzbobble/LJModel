@@ -2,11 +2,11 @@
 """
 Radial Distribution Function algorithm
 
-calculates the probability to find a particle at a given distance from the reference particle using a histogram
+Collects distances between pairs of particles and plots the RDF.
 
 Created on Sun Feb 26 11:43:43 2017
 
-@author: Cara Lynch
+Author: Cara Lynch, Marina Ruiz Sanchez-Oro
 """
 
 import matplotlib.pyplot as plt
@@ -58,16 +58,21 @@ def histogram(fileName, name, syst, rho, numstep):
     rdfArray = np.array(distances, dtype = float)
     
     
-    # Create and plot normalised histogram
+    # Bin values
     hist,bin_edges=np.histogram(rdfArray, bins = 100, density = False)
+    
+    # Compute bin size
     dr = bin_edges[1]-bin_edges[0]
     
+    # Normalise histogram
     histnormalised = hist
     for i in range(0, hist.size):
         histnormalised[i] = hist[i]/(4*math.pi*bin_edges[i]**(2)*rho*syst.N*numstep*dr)
     
+    # Delete one element of bin_edges array so that histnormalised and xdata have the same shape
     xdata = np.delete(bin_edges,hist.size-1)
     
+    # Plot histogram
     plt.plot(xdata,histnormalised, "g", label="rdf")
     plt.title("Histogram of radial distribution function for a " + str(name))
     plt.xlabel("Radial distance")
