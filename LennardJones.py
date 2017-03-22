@@ -1,10 +1,9 @@
 """ 
-Lennard Jones: 
-returns the force and potential energy acting on the ith particle through the Lennard-Jones pair potential 
+Lennard Jones Module 
 
-Marina Ruiz Sanchez-Oro
+Returns the force and potential energy acting on every particle through the Lennard-Jones pair potential as well as the total potential energy of the system.
 
-Cara Lynch
+Authors: Marina Ruiz Sanchez-Oro, Cara Lynch
 
 21/02/2017
 """
