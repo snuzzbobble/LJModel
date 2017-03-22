@@ -1,5 +1,5 @@
 """
-MSD vs timestep plotter
+Mean Squared Distance vs timestep plotter.
 
 Cara Lynch
 
@@ -9,6 +9,12 @@ Cara Lynch
 import matplotlib.pyplot as pyplot
 
 def plot(fileName,name):
+    """
+    Plots MSD as a function of time
+    
+    :param fileName: name of file with MSD data as a string
+    :param name: name of system as a string
+    """
     
     # Set up data lists for plotting MSD
     dtValue = []
