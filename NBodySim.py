@@ -1,10 +1,13 @@
-# -*- coding: utf-8 -*-
 """
-NBody Simulation
+Lennard-Jones N-Body Simulation
+
+Simulates an N-body system of particles interacting through the Lennard-Jones pair potential.
+
+Outputs radial distribution function, mean squared distance and energy over time.
 
 Created on Tue Feb 28 13:18:18 2017
 
-@author: snuzz
+Author: Cara Lynch, Marina Ruiz Sanchez-Oro
 """
 
 import matplotlib.pyplot as pyplot
