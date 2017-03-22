@@ -70,8 +70,8 @@ def histogram(fileName, name):
     print normalisedcontents
     
     
-    # not sure about the x axis
-    plt.plot(distances,normalisedcontents, "g", label="rdf")
+   
+    plt.plot(bin_ends,normalisedcontents, "g", label="rdf")
     plt.legend()
     plt.title("Histogram of radial distribution function for a " + str(name))
     plt.xlabel("Radial distance")
