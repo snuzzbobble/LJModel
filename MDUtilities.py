@@ -1,5 +1,7 @@
 """
-CMod Project B: auxiliary MD methods
+CompMod Project B: auxiliary MD methods
+
+Modified 21/02/2017 by Cara Lynch to be used with ParticleSyst instances.
 """
 
 import random
