@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-PBC: Periodic Boundary Conditions module
+Periodic Boundary Conditions module
 
 A module complete with a method that implements Periodic Boundary Conditions.
 
 Created on Wed Feb 22 21:03:52 2017
 
-@author: Cara Lynch
+Author: Cara Lynch
 """
 
 
