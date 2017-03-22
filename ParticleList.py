@@ -1,7 +1,7 @@
 """
 A class representing a list of N particles moving in 3D space, complete with various methods.
 
-Authors: Cara Lynch
+Authors: Cara Lynch, Marina Ruiz Sanchez-Oro
 
 Date: 07/02/2017
 
