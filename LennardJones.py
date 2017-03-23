@@ -26,7 +26,7 @@ def ljforce(system,boxdim,Rc) :
     
     # Compute force on ith particle
     for i in range (0,system.N):
-        # Compute magnituge of vector separation and vector separation (both arrays)
+        # Compute vector separation and magnituge of vector separation (both arrays)
         r = P.sepmag(system,boxdim,i)
         rvec = P.MICvecsep(system,boxdim,i)
         
