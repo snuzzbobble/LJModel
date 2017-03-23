@@ -99,13 +99,11 @@ for i in range(1, numstep):
     vv.VelVerlet(dt, System, boxdim, r_c)
     force = lj.ljforce(System,boxdim,r_c)
     
-    # Output trajectory information for VMD file
-    trajectory = P.printVMD(System, k)
-    VMDfile.write(trajectory)
-    
-    
     # For a small enough number of steps, get Energy, RDF and MSD data for every step
     if numstep <= 1000:
+        # Output trajectory information for VMD file
+        trajectory = P.printVMD(System, k)
+        VMDfile.write(trajectory)
         
         # Output energy information for energy file
         tValue.append(i)
@@ -116,9 +114,9 @@ for i in range(1, numstep):
         Energyfile.write(str(i) + " " + str.format("{0:.4f}",P.kineticEnergy(System)) + " "  + str.format("{0:.4f}",lj.totPE(System,boxdim,r_c)) + " " + str.format("{0:.4f}",vv.totE(System, boxdim, r_c)) + "\n")
         
         # RDF histogram and MSD calculation
-        for l in range(0, System.N):
+        for l in range(0,http://www.interflora.fr/c/fleurs-saison?sort=price-asc System.N):
         
-            # Output radial distances for RDF
+            # Output radial distances fohttp://www.interflora.fr/c/fleurs-saison?sort=price-ascr RDF
             hist.particledistances(System, RDFfile,boxdim,l)
             
             # MSD calculation
@@ -134,10 +132,15 @@ for i in range(1, numstep):
             
         # Add to MSD file with format: timestep MSD
         MSDfile.write(str(i)+ " " + str.format("{0:.4f}",MSD) + "\n")
-         
+        
     # For a large number of steps, only get Energy, RDF and MSD data every 4th step
     else:
-        if i%4.0 == 0:
+        if i%5.0 == 0:
+            
+            # Output trajectory information for VMD file
+            trajectory = P.printVMD(System, k)
+            VMDfile.write(trajectory)
+
             
             # Output energy information for energy file
             tValue.append(i)
@@ -179,6 +182,7 @@ for i in range(1, numstep):
 
 # Close output files    
 VMDfile.close()
+
 RDFfile.close()
 MSDfile.close()
 Energyfile.close()
@@ -207,6 +211,5 @@ pyplot.xlabel("Time step number")
 pyplot.ylabel("Energy ")
 pyplot.savefig(str(name)+'Energyevolution')
 pyplot.show()
-
 
 
