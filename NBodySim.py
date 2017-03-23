@@ -114,9 +114,9 @@ for i in range(1, numstep):
         Energyfile.write(str(i) + " " + str.format("{0:.4f}",P.kineticEnergy(System)) + " "  + str.format("{0:.4f}",lj.totPE(System,boxdim,r_c)) + " " + str.format("{0:.4f}",vv.totE(System, boxdim, r_c)) + "\n")
         
         # RDF histogram and MSD calculation
-        for l in range(0,http://www.interflora.fr/c/fleurs-saison?sort=price-asc System.N):
+        for l in range(0, System.N):
         
-            # Output radial distances fohttp://www.interflora.fr/c/fleurs-saison?sort=price-ascr RDF
+            # Output radial distances for RDF
             hist.particledistances(System, RDFfile,boxdim,l)
             
             # MSD calculation
@@ -182,7 +182,6 @@ for i in range(1, numstep):
 
 # Close output files    
 VMDfile.close()
-
 RDFfile.close()
 MSDfile.close()
 Energyfile.close()
