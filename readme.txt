@@ -29,7 +29,6 @@ The input file must be in the following format:
 
 
 [name of system]  [number of particles]  [temperature]  [density]
-
 [cutoff radius]  [number of steps]
 
 All data is in reduced units.
@@ -43,25 +42,19 @@ There are 3 input files contained in our submission:
 
 ## Output
 
-NBodySim creates output files and plots, all in reduced units. These all have the name of system, followed by the data contained in the file, as their names.
+NBodySim creates output files and plots, all in reduced units. These all have the name of system, followed by the data contained in the file. The trajectory file must be opened in VMD to plot, using CPK representation (and reducing bond size to 0).
 
 ### Output files and format
 
-* __[name of system]msd.out__ - *file of mean squared displacement data where each line is:* [timestep number]  [MSD of system]
-* __[name of system]rdf.out__ - file of radial distribution data where each line is: [radial distance of a particle from the reference particle at a certain time]
-* __[name of system]energy.out__ - file of energy data where each line is: [timestep number]  [kinetic energy of system]  [potential energy of system]  [total energy of system]
-* __[name of system]VMD.xyz__ -  trajectory file for plotting the system using VMD
-* __[name of system]Energyevolution.png__  - graph of energy evolution (KE, PE and total E) of system vs timestep number
-* __[name of system]Histogram.png__ - radial distribution function of system as a histogram, with frequency density vs radial distance from reference particle r
-* __[name of system]MSD.png__ - graph of mean squared displacement of system vs timestep number
+* [name of system]msd.out - file of mean squared displacement data where each line is: [timestep number]  [MSD of system]
+* [name of system]rdf.out - file of radial distribution data where each line is: [radial distance of a particle from the reference particle at a certain time]
+* [name of system]energy.out - file of energy data where each line is: [timestep number]  [kinetic energy of system]  [potential energy of system]  [total energy of system]
+* [name of system]VMD.xyz -  trajectory file for plotting the system using VMD
+* [name of system]Energyevolution.png  - graph of energy evolution (KE, PE and total E) of system vs timestep number
+* [name of system]Histogram.png - radial distribution function of system as a histogram, with frequency density vs radial distance from reference particle r
+* [name of system]MSD.png - graph of mean squared displacement of system vs timestep number
 
-### Output included in package
-
-
-We have included 3 sets of data, all with dt=0.01 and numstep=1000:
-* Fluid
-* Solid
-* Gas
+### Data included
 
 We have included 3 sets of trajectory data, rdf, msd and energy graphs, all with dt=0.01 and numstep=1000:
 * Fluid
@@ -69,5 +62,6 @@ We have included 3 sets of trajectory data, rdf, msd and energy graphs, all with
 * Gas
 
 We have additionally included trajectory data for a 10000 step fluid simulation, called Fluid10000VMD.xyz
+
 
 [1] Python 3 is used instead of 2.7 as there are issues with the Python 2.7 numpy.histogram package installed in the computer lab
